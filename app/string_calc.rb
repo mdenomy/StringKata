@@ -1,7 +1,9 @@
 class StringCalc
 
   def add(input)
-    number = input.scan(/\d/)
-	return number[0].to_i
+    numbers = input.scan(/\d/)
+	value = 0
+	numbers.each { |n| value += n.to_i }
+	return value
   end
 end
