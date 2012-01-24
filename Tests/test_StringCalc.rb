@@ -38,11 +38,18 @@ class TestStringCalc < Test::Unit::TestCase
     assert_equal 6, calc.add("1\n 2,\t 3")
   end
 
-  def test_extra_delimiter
+  def test_trailing_newline_delimiter
     calc = StringCalc.new
     assert_raise ArgumentError do
 	    calc.add("1,2\n")
 	end
   end
-  
+ 
+  def test_trailing_comma_delimiter
+    calc = StringCalc.new
+    assert_raise ArgumentError do
+	    calc.add("1,2,")
+	end
+  end
+ 
 end
