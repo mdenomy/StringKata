@@ -28,6 +28,11 @@ class TestStringCalc < Test::Unit::TestCase
     assert_equal 3, calc.add("1\n2")
   end
 
+  def test_multi_digit_numbers
+    calc = StringCalc.new
+    assert_equal 33, calc.add("11\n22")
+  end
+
   def test_mixed_delimiters
     calc = StringCalc.new
     assert_equal 6, calc.add("1\n2,3")
@@ -42,14 +47,28 @@ class TestStringCalc < Test::Unit::TestCase
     calc = StringCalc.new
     assert_raise ArgumentError do
 	    calc.add("1,2\n")
-	end
+    end
   end
- 
+
   def test_trailing_comma_delimiter
     calc = StringCalc.new
     assert_raise ArgumentError do
 	    calc.add("1,2,")
-	end
+	  end
   end
  
+  def test_optional_newline_delimiter
+    calc = StringCalc.new
+    assert_equal 3, calc.add("//;\n1;2")
+  end
+
+  def test_negatives_raise_exception
+    begin
+      calc = StringCalc.new
+      calc.add("-1000")
+      assert false, "Should have thrown"
+    rescue ArgumentError => ex
+      assert ex.message.to_s.include?("negative")
+    end
+  end
 end
